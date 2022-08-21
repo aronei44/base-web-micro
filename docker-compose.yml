@@ -83,6 +83,23 @@ services:
       SERVICE_NAME: mysql
     networks:
       - plan2plant_networks
+  ui:
+    container_name: plan2plant-ui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
+    volumes:
+      - ./ui:/var/www/ui
+      - /var/www/ui/node_modules
+      - /var/www/ui/.next
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - plan2plant_networks
 
 networks:
   plan2plant_networks:
