@@ -15,7 +15,25 @@ services:
       - ./:/var/www/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - testing_networks
+      - PAP_networks
+  mysql:
+    image: mysql:8.0
+    container_name: ${PROJECT_NAME}-mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/app/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - PAP_networks
   api:
     build:
       context: ./api
@@ -64,25 +82,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - testing_networks
-  mysql:
-    image: mysql:8.0
-    container_name: ${PROJECT_NAME}-mysql
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./mysql:/app/mysql
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    networks:
-      - testing_networks
+      - PAP_networks
   ui:
     container_name: ${PROJECT_NAME}-ui
     build:
@@ -99,7 +99,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - testing_networks
+      - PAP_networks
   redis:
     image: redis:alpine
     container_name: ${PROJECT_NAME}-redis
@@ -109,6 +109,6 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - testing_networks
+      - PAP_networks
 networks:
-  testing_networks:
+  PAP_networks:

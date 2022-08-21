@@ -11,3 +11,4 @@ WORKDIR /var/www/api
 COPY . .
 
 RUN composer install
+RUN php artisan key:generate
