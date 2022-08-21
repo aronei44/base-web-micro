@@ -16,6 +16,56 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - plan2plant_networks
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    container_name: api
+    volumes:
+      - ./api:/var/www/api
+      - ./var/www/api/vendor
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: ${APP_NAME}
+      APP_ENV: ${APP_ENV}
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_URL: ${APP_URL}
+      LOG_CHANNEL: ${LOG_CHANNEL}
+      LOG_DEPRECATIONS_CHANNEL: ${LOG_DEPRECATIONS_CHANNEL}
+      LOG_LEVEL: ${LOG_LEVEL}
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      BROADCAST_DRIVER: ${BROADCAST_DRIVER}
+      CACHE_DRIVER: ${CACHE_DRIVER}
+      FILESYSTEM_DISK: ${FILESYSTEM_DISK}
+      QUEUE_CONNECTION: ${QUEUE_CONNECTION}
+      SESSION_DRIVER: ${SESSION_DRIVER}
+      SESSION_LIFETIME: ${SESSION_LIFETIME}
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      MAIL_MAILER: ${MAIL_MAILER}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
+
+    depends_on:
+      - mysql
+    networks:
+      - mega_network
+
 
 networks:
   plan2plant_networks:
