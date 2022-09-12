@@ -15,7 +15,7 @@ services:
       - ./:/var/www/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - PAP_networks
+      - starter_networks
   mysql:
     image: mysql:8.0
     container_name: ${PROJECT_NAME}-mysql
@@ -33,7 +33,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - PAP_networks
+      - starter_networks
   api:
     build:
       context: ./api
@@ -82,7 +82,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - PAP_networks
+      - starter_networks
   ui:
     container_name: ${PROJECT_NAME}-ui
     build:
@@ -99,7 +99,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - PAP_networks
+      - starter_networks
   redis:
     image: redis:alpine
     container_name: ${PROJECT_NAME}-redis
@@ -109,6 +109,6 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - PAP_networks
+      - starter_networks
 networks:
-  PAP_networks:
+  starter_networks:
