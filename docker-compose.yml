@@ -24,7 +24,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql:/app/mysql
+      - ./app/mysql
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -105,7 +105,7 @@ services:
     container_name: ${PROJECT_NAME}-redis
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
     volumes:
-    - ./redis:/data
+    - ./app/redis
     ports:
       - "6379:6379"
     networks:
